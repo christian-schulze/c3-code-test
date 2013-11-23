@@ -8,6 +8,7 @@ module Rules
 
     def valid?(row)
       return false unless row.has_key?(@column_name)
+      return false if row[@column_name].nil?
 
       row[@column_name].length > 0
     end
