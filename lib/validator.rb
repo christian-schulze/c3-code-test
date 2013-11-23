@@ -1,7 +1,7 @@
-require 'rules/exists'
-require 'rules/integer'
-require 'rules/minimum_length'
-require 'rules/state_exists'
+require_relative 'rules/exists'
+require_relative 'rules/integer'
+require_relative 'rules/minimum_length'
+require_relative 'rules/state_exists'
 
 class Validator
 
