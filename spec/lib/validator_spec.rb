@@ -1,0 +1,61 @@
+require 'spec_helper'
+
+require 'validator'
+
+describe Validator do
+
+  let(:states_fixture_path) { File.join(FIXTURE_PATH, 'states.csv') }
+
+  describe '.map_column_to_rule(column_name, rule_klass, options = {})' do
+    it 'instantiates the Exists rule' do
+      expect( subject.map_column_to_rule('column1', 'Exists').first.class.name ).to eq 'Rules::Exists'
+    end
+
+    it 'instantiates the Integer rule' do
+      expect( subject.map_column_to_rule('column1', 'Integer').first.class.name ).to eq 'Rules::Integer'
+    end
+
+    it 'instantiates the MinimumLength rule' do
+      expect( subject.map_column_to_rule('column1', 'MinimumLength', minimum_length: 10).first.class.name ).to eq 'Rules::MinimumLength'
+    end
+
+    it 'instantiates the StateExists rule' do
+      expect( subject.map_column_to_rule('column1', 'StateExists', default_path: states_fixture_path).first.class.name ).to eq 'Rules::StateExists'
+    end
+  end
+
+  describe '.validate(row)' do
+    let(:row) {
+      {
+        'column1' => '',
+        'column2' => 'asdf',
+        'column3' => '1234',
+        'column4' => '1'
+      }
+    }
+
+    let(:expected_result) { [ false, true, false, true, false, true, false, true ] }
+
+    before do
+      subject.map_column_to_rule('column1', 'Exists')
+      subject.map_column_to_rule('column2', 'Exists')
+      subject.map_column_to_rule('column1', 'Integer')
+      subject.map_column_to_rule('column3', 'Integer')
+      subject.map_column_to_rule('column1', 'MinimumLength', minimum_length: 4)
+      subject.map_column_to_rule('column2', 'MinimumLength', minimum_length: 4)
+      subject.map_column_to_rule('column1', 'StateExists', default_path: states_fixture_path)
+      subject.map_column_to_rule('column4', 'StateExists', default_path: states_fixture_path)
+    end
+
+    it 'correctly validates a row' do
+      expect( subject.validate(row) ).to eq expected_result
+    end
+  end
+
+  describe '#string_to_klass(klass_string)' do
+    it 'returns a matching rule constant' do
+      expect( subject.class.string_to_klass('Exists').name ).to eq 'Rules::Exists'
+    end
+  end
+
+end
