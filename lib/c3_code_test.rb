@@ -1,5 +1,6 @@
 require 'csv'
 
+DATA_PATH = File.expand_path(File.join(File.dirname(__FILE__), '../data'))
 
 class C3CodeTest
 

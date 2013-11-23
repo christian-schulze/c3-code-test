@@ -1,13 +1,12 @@
+require_relative '../c3_code_test'
 require 'csv'
 
 module Rules
   class StateExists
 
-    DEFAULT_DATA_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'data/states.csv'))
-
     def initialize(column_name, options = {})
       @column_name= column_name
-      @data_path = options.fetch(:default_path, DEFAULT_DATA_PATH)
+      @data_path = options.fetch(:default_path, File.join(::DATA_PATH, 'states.csv'))
 
       load_states_data
     end

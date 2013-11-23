@@ -4,6 +4,10 @@ require 'c3_code_test'
 
 describe C3CodeTest do
 
+  before :each do
+    stub_const('::DATA_PATH', FIXTURE_PATH)
+  end
+
   describe '.process_file(file_path)' do
     let(:test_file_1_record)  { File.join(FIXTURE_PATH, 'test-1-record.csv') }
     let(:test_file_2_records) { File.join(FIXTURE_PATH, 'test-2-records.csv') }
