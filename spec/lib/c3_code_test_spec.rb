@@ -35,4 +35,17 @@ describe C3CodeTest do
     end
   end
 
+  let(:data_path) { File.join(FIXTURE_PATH, 'data.csv') }
+
+  it 'correctly detects warnings and errors' do
+    expect( subject.process_file(data_path) ).to eq [
+      '0: Error: Postcode does not exist.',
+      '3: Warning: State: 0 is not contained in the states list.',
+      '3: Error: Postcode does not exist.',
+      '4: Warning: Salary: 26000.86 is not an integer.',
+      '5: Warning: Name: Tom is below the minimum length of 4.',
+      '5: Warning: State: 0 is not contained in the states list.'
+    ]
+  end
+
 end
