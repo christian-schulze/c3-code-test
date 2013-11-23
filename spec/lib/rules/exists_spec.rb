@@ -4,13 +4,12 @@ require 'rules/exists'
 
 module Rules
   describe Exists do
+    subject { Exists.new('column2') }
+
+    let(:blank)     { { 'column2' => '' } }
+    let(:not_blank) { { 'column2' => '12345' } }
 
     describe '.valid?(row)' do
-      subject { Exists.new('column2') }
-
-      let(:blank)     { { 'column2' => '' } }
-      let(:not_blank) { { 'column2' => '12345' } }
-
       it 'returns false when column does not exist' do
         expect( subject.valid?( Hash.new ) ).to be_false
       end
@@ -21,6 +20,12 @@ module Rules
 
       it 'returns true when column is not blank' do
         expect( subject.valid?( not_blank ) ).to be_true
+      end
+    end
+
+    describe '.failure_message(row)' do
+      it 'returns a specific failure message' do
+        expect( subject.failure_message( blank ) ).to eq 'column2 does not exist.'
       end
     end
 

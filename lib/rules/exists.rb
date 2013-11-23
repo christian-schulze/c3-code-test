@@ -12,5 +12,9 @@ module Rules
       row[@column_name].length > 0
     end
 
+    def failure_message(row)
+      "#{@column_name} does not exist."
+    end
+
   end
 end

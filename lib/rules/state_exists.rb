@@ -18,6 +18,10 @@ module Rules
       include_state_index?(row[@column_name])
     end
 
+    def failure_message(row)
+      "#{@column_name}: #{row[@column_name]} is not contained in the states list."
+    end
+
     private
 
     def load_states_data

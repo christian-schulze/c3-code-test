@@ -13,5 +13,9 @@ module Rules
       row[@column_name].length >= @minimum_length
     end
 
+    def failure_message(row)
+      "#{@column_name}: #{row[@column_name]} is below the minimum length of #{@minimum_length}."
+    end
+
   end
 end

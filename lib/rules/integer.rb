@@ -12,6 +12,10 @@ module Rules
       integer?(row[@column_name])
     end
 
+    def failure_message(row)
+      "#{@column_name}: #{row[@column_name]} is not an integer."
+    end
+
     private
 
     def integer?(value)
