@@ -2,7 +2,7 @@
 module Rules
   class Exists
 
-    def initialize(column_name)
+    def initialize(column_name, options = {})
       @column_name = column_name
     end
 

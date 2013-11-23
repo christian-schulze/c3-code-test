@@ -6,7 +6,7 @@ module Rules
   describe StateExists do
 
     describe '.valid?(row)' do
-      subject { StateExists.new('column2', File.join(FIXTURE_PATH, 'states.csv')) }
+      subject { StateExists.new('column2', default_path: File.join(FIXTURE_PATH, 'states.csv')) }
 
       let(:blank)         { { 'column2' => '' } }
       let(:doesnt_exist)  { { 'column2' => '10' } }

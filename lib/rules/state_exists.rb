@@ -5,8 +5,10 @@ module Rules
 
     DEFAULT_DATA_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'data/states.csv'))
 
-    def initialize(column_name, data_path = DEFAULT_DATA_PATH)
-      @column_name, @data_path = column_name, data_path
+    def initialize(column_name, options = {})
+      @column_name= column_name
+      @data_path = options.fetch(:default_path, DEFAULT_DATA_PATH)
+
       load_states_data
     end
 

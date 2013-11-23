@@ -6,7 +6,7 @@ module Rules
   describe MinimumLength do
 
     describe '.valid?(row)' do
-      subject { MinimumLength.new('column2', 5) }
+      subject { MinimumLength.new('column2', minimum_length: 5) }
 
       let(:less_than_minimum)     { { 'column2' => '1234' } }
       let(:equal_to_minimum)      { { 'column2' => '12345' } }
