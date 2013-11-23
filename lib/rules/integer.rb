@@ -15,7 +15,7 @@ module Rules
     private
 
     def integer?(value)
-      value =~ /^[-+]?\d+$/
+      /^[-+]?\d+$/ === value
     end
 
   end
