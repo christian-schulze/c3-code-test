@@ -7,20 +7,12 @@ describe Validator do
   let(:states_fixture_path) { File.join(FIXTURE_PATH, 'states.csv') }
 
   describe '.map_column_to_rule(severity, column_name, rule_klass, options = {})' do
-    it 'instantiates the Exists rule' do
-      expect( subject.map_column_to_rule(:warning, 'column1', 'Exists').first.rule.class.name ).to eq 'Rules::Exists'
+    it 'instantiates a rule mapping object when mapping a column to a valid rule' do
+      expect( subject.map_column_to_rule(:warning, 'column1', 'Exists').first.class.name ).to eq 'RuleMapping'
     end
 
-    it 'instantiates the Integer rule' do
-      expect( subject.map_column_to_rule(:error, 'column1', 'Integer').first.rule.class.name ).to eq 'Rules::Integer'
-    end
-
-    it 'instantiates the MinimumLength rule' do
-      expect( subject.map_column_to_rule(:warning, 'column1', 'MinimumLength', minimum_length: 10).first.rule.class.name ).to eq 'Rules::MinimumLength'
-    end
-
-    it 'instantiates the StateExists rule' do
-      expect( subject.map_column_to_rule(:warning, 'column1', 'StateExists', default_path: states_fixture_path).first.rule.class.name ).to eq 'Rules::StateExists'
+    it 'raises an exception if the specified rule does not exist' do
+      expect{ subject.map_column_to_rule(:error, 'column1', 'Asdf') }.to raise_error
     end
   end
 
