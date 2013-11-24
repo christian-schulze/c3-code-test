@@ -25,33 +25,18 @@ class C3CodeTest
   end
 
   def process_file(file_path)
-    @record_index = 0
-    @messages = []
+    messages, record_index = [], 0
+
     CSV.foreach(file_path, headers: true) do |row|
-      process_row(row)
-      @record_index += 1
+      messages += process_row(row, record_index)
+      record_index += 1
     end
-    @messages
+
+    messages
   end
 
-  def process_row(row)
-    @validator.validate(row).each_with_index do |valid, index|
-      next if valid
-
-      severity = @validator.mappings[index].severity
-      message = @validator.mappings[index].rule.failure_message(row)
-
-      case severity
-      when :warning
-        message = 'Warning: ' + message
-      when :error
-        message = 'Error: ' + message
-      else
-        raise "'severity type '#{severity}' not supported'"
-      end
-
-      @messages << "#{@record_index}: #{message}"
-    end
+  def process_row(row, record_index)
+    @validator.validate(row, record_index)
   end
 
 end

@@ -16,7 +16,7 @@ describe Validator do
     end
   end
 
-  describe '.validate(row)' do
+  describe '.validate(row, row_index)' do
     let(:row) {
       {
         'column1' => '',
@@ -26,7 +26,14 @@ describe Validator do
       }
     }
 
-    let(:expected_result) { [ false, true, false, true, false, true, false, true ] }
+    let(:expected_result) {
+      [
+        '0: Warning: column1 does not exist.',
+        '0: Error: column1:  is not an integer.',
+        '0: Warning: column1:  is below the minimum length of 4.',
+        '0: Warning: column1:  is not contained in the states list.'
+      ]
+    }
 
     before do
       subject.map_column_to_rule(:warning,  'column1', 'Exists')
@@ -40,7 +47,7 @@ describe Validator do
     end
 
     it 'correctly validates a row' do
-      expect( subject.validate(row) ).to eq expected_result
+      expect( subject.validate(row, 0) ).to eq expected_result
     end
   end
 end

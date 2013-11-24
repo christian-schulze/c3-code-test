@@ -13,14 +13,15 @@ describe C3CodeTest do
     let(:test_file_2_records) { File.join(FIXTURE_PATH, 'test-2-records.csv') }
 
     it 'reads each line of an input file' do
-      subject.should_receive(:process_row).twice
+      subject.should_receive(:process_row).twice.and_return([])
 
       subject.process_file(test_file_2_records)
     end
 
     it 'converts each line into an CSV::Row object' do
-      subject.stub(:process_row) do |row|
+      subject.stub(:process_row) do |row, row_index|
         expect( row ).to be_an_instance_of(CSV::Row)
+        []
       end
 
       subject.process_file(test_file_1_record)
@@ -29,6 +30,7 @@ describe C3CodeTest do
     it 'parses the csv header row' do
       subject.stub(:process_row) do |row|
         expect( row.headers ).to eq %w(column1 column2 column3)
+        []
       end
 
       subject.process_file(test_file_1_record)
