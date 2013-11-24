@@ -40,7 +40,7 @@ class C3CodeTest
       next if valid
 
       severity = RULE_MAPPINGS[index].first
-      message = @validator.mapped_rules[index].failure_message(row)
+      message = @validator.mappings[index].rule.failure_message(row)
 
       case severity
       when 'warning'

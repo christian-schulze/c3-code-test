@@ -8,19 +8,19 @@ describe Validator do
 
   describe '.map_column_to_rule(column_name, rule_klass, options = {})' do
     it 'instantiates the Exists rule' do
-      expect( subject.map_column_to_rule('column1', 'Exists').first.class.name ).to eq 'Rules::Exists'
+      expect( subject.map_column_to_rule('column1', 'Exists').first.rule.class.name ).to eq 'Rules::Exists'
     end
 
     it 'instantiates the Integer rule' do
-      expect( subject.map_column_to_rule('column1', 'Integer').first.class.name ).to eq 'Rules::Integer'
+      expect( subject.map_column_to_rule('column1', 'Integer').first.rule.class.name ).to eq 'Rules::Integer'
     end
 
     it 'instantiates the MinimumLength rule' do
-      expect( subject.map_column_to_rule('column1', 'MinimumLength', minimum_length: 10).first.class.name ).to eq 'Rules::MinimumLength'
+      expect( subject.map_column_to_rule('column1', 'MinimumLength', minimum_length: 10).first.rule.class.name ).to eq 'Rules::MinimumLength'
     end
 
     it 'instantiates the StateExists rule' do
-      expect( subject.map_column_to_rule('column1', 'StateExists', default_path: states_fixture_path).first.class.name ).to eq 'Rules::StateExists'
+      expect( subject.map_column_to_rule('column1', 'StateExists', default_path: states_fixture_path).first.rule.class.name ).to eq 'Rules::StateExists'
     end
   end
 
@@ -51,11 +51,4 @@ describe Validator do
       expect( subject.validate(row) ).to eq expected_result
     end
   end
-
-  describe '#string_to_klass(klass_string)' do
-    it 'returns a matching rule constant' do
-      expect( subject.class.string_to_klass('Exists').name ).to eq 'Rules::Exists'
-    end
-  end
-
 end
