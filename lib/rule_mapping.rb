@@ -5,9 +5,10 @@ require_relative 'rules/state_exists'
 
 class RuleMapping
 
-  attr_reader :column_name, :rule, :options
+  attr_reader :severity, :column_name, :rule, :options
 
-  def initialize(column_name, klass_string, options = {})
+  def initialize(severity, column_name, klass_string, options = {})
+    @severity = severity
     @column_name, @klass_string, @options = column_name, klass_string, options
 
     @rule = self.class.string_to_klass(klass_string).new(column_name, options)

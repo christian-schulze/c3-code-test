@@ -7,10 +7,10 @@ class C3CodeTest
 
   # TODO could be moved to another class, config file or database
   RULE_MAPPINGS = [
-    ['warning', 'Name', 'MinimumLength', { minimum_length: 4 }],
-    ['warning', 'State', 'StateExists'],
-    ['warning', 'Salary', 'Integer'],
-    ['error', 'Postcode', 'Exists']
+    [:warning,  'Name',     'MinimumLength', { minimum_length: 4 }],
+    [:warning,  'State',    'StateExists'],
+    [:warning,  'Salary',   'Integer'],
+    [:error,    'Postcode', 'Exists']
   ]
 
   def initialize
@@ -19,8 +19,7 @@ class C3CodeTest
   end
 
   def configure_rules
-    RULE_MAPPINGS.each do |config|
-      params = config[1..-1]
+    RULE_MAPPINGS.each do |params|
       @validator.map_column_to_rule(*params)
     end
   end
@@ -39,13 +38,13 @@ class C3CodeTest
     @validator.validate(row).each_with_index do |valid, index|
       next if valid
 
-      severity = RULE_MAPPINGS[index].first
+      severity = @validator.mappings[index].severity
       message = @validator.mappings[index].rule.failure_message(row)
 
       case severity
-      when 'warning'
+      when :warning
         message = 'Warning: ' + message
-      when 'error'
+      when :error
         message = 'Error: ' + message
       else
         raise "'severity type '#{severity}' not supported'"

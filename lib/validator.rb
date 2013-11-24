@@ -8,8 +8,8 @@ class Validator
     @mappings = []
   end
 
-  def map_column_to_rule(column_name, klass_string, options = {})
-    @mappings << RuleMapping.new(column_name, klass_string, options)
+  def map_column_to_rule(severity, column_name, klass_string, options = {})
+    @mappings << RuleMapping.new(severity, column_name, klass_string, options)
   end
 
   def validate(row)
